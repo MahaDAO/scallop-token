@@ -22,7 +22,6 @@ contract ScallopToken is ERC20, Pausable, ERC20Permit {
         initializeERC20Permit("ScallopX");
 
         _mint(owner, 100000000 * 1e18); // mint 100 mil SCLP tokens
-        _unpause(); // unpause the contract
         initialized = true;
     }
 

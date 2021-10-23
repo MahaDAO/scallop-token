@@ -9,6 +9,7 @@ const web3 = new Web3();
 
 async function main() {
   // Deploy the SCLP token
+  console.log('deploying token')
   const ScallopToken = await hre.ethers.getContractFactory("ScallopToken");
   const token = await ScallopToken.deploy();
   await token.deployed();
@@ -29,6 +30,7 @@ async function main() {
     }, [minter]
   );
 
+  console.log('deploying proxy')
   const ProxyContract = await hre.ethers.getContractFactory("ScallopProxy");
   const proxy = await ProxyContract.deploy(
     token.address,
@@ -48,6 +50,7 @@ async function main() {
 
   await hre.run("verify:verify", {
     address: proxy.address,
+    contract: 'contracts/ScallopProxy.sol:ScallopProxy',
     constructorArguments: [
       token.address,
       admin,
