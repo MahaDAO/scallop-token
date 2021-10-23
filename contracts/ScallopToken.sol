@@ -18,7 +18,7 @@ contract ScallopToken is ERC20, Pausable, ERC20Permit, Ownable {
     function initialize(address owner) external payable {
         require(!initialized, "already initialized");
 
-        initializeERC20("ScallopX", "SCLP");
+        initializeERC20("Scallop", "SCLP");
         initializePausable();
         initializeOwnable(owner);
         initializeERC20Permit("ScallopX");
