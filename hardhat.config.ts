@@ -9,6 +9,7 @@ import { HardhatUserConfig } from "hardhat/types";
 import { NetworkUserConfig } from "hardhat/types";
 
 import "hardhat-gas-reporter";
+import "hardhat-proxy";
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-etherscan";
 
