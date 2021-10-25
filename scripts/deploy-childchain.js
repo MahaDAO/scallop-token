@@ -10,13 +10,13 @@ const web3 = new Web3();
 async function main() {
   // Deploy the SCLP token
   console.log('deploying token')
-  const ScallopToken = await hre.ethers.getContractFactory("ScallopToken");
+  const ScallopToken = await hre.ethers.getContractFactory("ScallopChildToken");
   const token = await ScallopToken.deploy();
   await token.deployed();
   console.log("token deployed to:", token.address);
 
   // set this accordingly
-  const admin = '0xd2f850606f4BB953A39a630C6505D20ab79D76A2';
+  const admin = '0x67c569F960C1Cc0B9a7979A851f5a67018c5A3b0';
   const minter = '0xd2f850606f4BB953A39a630C6505D20ab79D76A2';
 
   // Deploy proxy contract
@@ -38,8 +38,13 @@ async function main() {
     encodedFunctionSignature
   );
   await proxy.deployed();
-
   console.log('proxy at', proxy.address);
+
+  console.log('deploying bridge')
+  const ScallopBridge = await hre.ethers.getContractFactory("ScallopBridge");
+  const bridge = await ScallopBridge.deploy(token.address);
+  await bridge.deployed();
+  console.log('bridge at', bridge.address);
 
   // verify token contract
   await hre.run("verify:verify", {
@@ -55,6 +60,13 @@ async function main() {
       token.address,
       admin,
       encodedFunctionSignature
+    ],
+  });
+
+  await hre.run("verify:verify", {
+    address: bridge.address,
+    constructorArguments: [
+      token.address
     ],
   });
 }

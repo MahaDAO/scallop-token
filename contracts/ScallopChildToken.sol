@@ -1,4 +1,3 @@
-// contracts/MyNFT.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -10,10 +9,9 @@ import "./lib/ERC20Permit.sol";
 /**
  * Implementation of the Scallop token
  */
-contract ScallopToken is ERC20, Pausable, ERC20Permit, Ownable {
-    bool public initialized = false;
-
-    constructor() {}
+contract ScallopChildToken is ERC20, Pausable, ERC20Permit, Ownable {
+    bool public initialized;
+    address public bridge;
 
     function initialize(address owner) external payable {
         require(!initialized, "already initialized");
@@ -22,8 +20,6 @@ contract ScallopToken is ERC20, Pausable, ERC20Permit, Ownable {
         initializePausable();
         initializeOwnable(owner);
         initializeERC20Permit("ScallopX");
-
-        _mint(owner, 100000000 * 1e18); // mint 100 mil SCLP tokens
         initialized = true;
     }
 
@@ -39,5 +35,14 @@ contract ScallopToken is ERC20, Pausable, ERC20Permit, Ownable {
     function togglePause() external onlyOwner {
         if (!paused()) _pause();
         else _unpause();
+    }
+
+    function deposit(address _account, uint256 _amount) external {
+        require(_msgSender() == bridge, "caller != bridge");
+        _mint(_account, _amount);
+    }
+
+    function setBridge(address _bridge) external onlyOwner {
+        bridge = _bridge;
     }
 }

@@ -56,6 +56,11 @@ const config: HardhatUserConfig = {
     kovan: createTestnetConfig("kovan"),
     rinkeby: createTestnetConfig("rinkeby"),
     ropsten: createTestnetConfig("ropsten"),
+    bsc: {
+      accounts: [WALLET_SECRET],
+      chainId: 56,
+      url: "https://bsc-dataseed.binance.org/",
+    },
   },
   solidity: {
     compilers: [
