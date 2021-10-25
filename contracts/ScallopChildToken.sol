@@ -32,6 +32,10 @@ contract ScallopChildToken is ERC20, Pausable, ERC20Permit, Ownable {
         require(!paused(), "ERC20Pausable: token transfer while paused");
     }
 
+    function burn(uint256 _amount) external {
+        _burn(_msgSender(), _amount);
+    }
+
     function togglePause() external onlyOwner {
         if (!paused()) _pause();
         else _unpause();
