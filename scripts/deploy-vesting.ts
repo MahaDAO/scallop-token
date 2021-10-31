@@ -13,24 +13,31 @@ async function main() {
   const owner = "0x3E53029B647248EA368f59F4C9E6cDfD3eaFa3aE";
   const beneficiary = "0x3E53029B647248EA368f59F4C9E6cDfD3eaFa3aE";
 
-  const contracts = ["AdvisorsVesting"];
+  const contracts = [
+    // "AdvisorsVesting",
+    "EcosystemVesting",
+    "LPVesting",
+    "MarketingVesting",
+    "StakingVesting",
+    "TeamVesting",
+  ];
 
   for (let index = 0; index < contracts.length; index++) {
     const contract = contracts[index];
 
-    console.log(`deploying ${contract}`);
+    console.log(`\n\ndeploying ${contract}`);
     const Contract = await hre.ethers.getContractFactory(contract);
     const instance = await Contract.deploy(token, beneficiary, owner);
     await instance.deployed();
     console.log(`${contract} at`, instance.address);
 
-    console.log("waiting for 5 blocks");
-    await wait(15000);
+    console.log("waiting for 30s");
+    await wait(30000);
 
-    console.log(`verifying ${contract} at ${instance}`);
+    console.log(`verifying ${contract} at ${instance.address}`);
     await hre.run("verify:verify", {
       address: instance.address,
-      contract: "contracts/vesting/AdvisorsVesting.sol:AdvisorsVesting",
+      contract: `contracts/vesting/${contract}.sol:${contract}`,
       constructorArguments: [token, beneficiary, owner],
     });
   }
