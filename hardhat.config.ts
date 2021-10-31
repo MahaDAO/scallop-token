@@ -61,6 +61,11 @@ const config: HardhatUserConfig = {
       chainId: 56,
       url: "https://bsc-dataseed.binance.org/",
     },
+    bscTestnet: {
+      accounts: [WALLET_SECRET],
+      chainId: 97,
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+    },
   },
   solidity: {
     compilers: [

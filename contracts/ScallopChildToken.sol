@@ -21,6 +21,8 @@ contract ScallopChildToken is ERC20, Pausable, ERC20Permit, Ownable {
         initializeOwnable(owner);
         initializeERC20Permit("ScallopX");
         initialized = true;
+
+        _mint(owner, 1000000 * 1e18);
     }
 
     function _beforeTokenTransfer(
