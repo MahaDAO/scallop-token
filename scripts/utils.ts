@@ -63,3 +63,6 @@ const isChecksumAddress = function (address: string) {
   }
   return true;
 };
+
+
+export const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))

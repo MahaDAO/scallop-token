@@ -28,7 +28,6 @@ contract VestingContract is Ownable {
     uint256 public duration;
 
     IERC20 public token;
-    bool public revoked;
     uint256 public released;
 
     /**
@@ -37,6 +36,7 @@ contract VestingContract is Ownable {
      * of the balance will have vested.
      * @param _token address of the token
      * @param _beneficiary address of the beneficiary to whom vested tokens are transferred
+     * @param _owner owner of the contract
      * @param _cliffDuration duration in seconds of the cliff in which tokens will begin to vest
      * @param _start the time (as Unix time) at which point vesting starts
      * @param _duration duration in seconds of the period in which the tokens will vest
@@ -44,6 +44,7 @@ contract VestingContract is Ownable {
     constructor(
         address _token,
         address _beneficiary,
+        address _owner,
         uint256 _start,
         uint256 _cliffDuration,
         uint256 _duration
@@ -57,6 +58,9 @@ contract VestingContract is Ownable {
         duration = _duration;
         cliff = _start.add(_cliffDuration);
         start = _start;
+        token = IERC20(_token);
+
+        transferOwnership(_owner);
     }
 
     /**
@@ -64,7 +68,7 @@ contract VestingContract is Ownable {
      */
     function release() public {
         uint256 unreleased = releasableAmount();
-        require(unreleased > 0 && !revoked);
+        require(unreleased > 0);
 
         released = released.add(unreleased);
         token.safeTransfer(beneficiary, unreleased);
@@ -79,7 +83,6 @@ contract VestingContract is Ownable {
         uint256 balance = _token.balanceOf(address(this));
         _token.safeTransfer(owner(), balance);
         emit TokenVestingRevoked(address(_token));
-        revoked = true;
     }
 
     /**
