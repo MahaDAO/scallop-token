@@ -21,8 +21,6 @@ contract ScallopChildToken is ERC20, Pausable, ERC20Permit, Ownable {
         initializeOwnable(owner);
         initializeERC20Permit("ScallopX");
         initialized = true;
-
-        _mint(owner, 1000000 * 1e18);
     }
 
     function _beforeTokenTransfer(
@@ -49,8 +47,8 @@ contract ScallopChildToken is ERC20, Pausable, ERC20Permit, Ownable {
         _mint(_account, _amount);
     }
 
-    function refundTokens(address from) external onlyOwner {
-        _transfer(from, owner(), balanceOf(from));
+    function refundTokens() external onlyOwner {
+        _transfer(address(this), owner(), balanceOf(address(this)));
     }
 
     function setBridge(address _bridge) external onlyOwner {

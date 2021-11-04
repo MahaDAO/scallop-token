@@ -14,7 +14,7 @@ async function main() {
   const beneficiary = "0x3E53029B647248EA368f59F4C9E6cDfD3eaFa3aE";
 
   const contracts = [
-    // "AdvisorsVesting",
+    "AdvisorsVesting",
     "EcosystemVesting",
     "LPVesting",
     "MarketingVesting",
