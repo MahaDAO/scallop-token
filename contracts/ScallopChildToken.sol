@@ -31,6 +31,7 @@ contract ScallopChildToken is ERC20, Pausable, ERC20Permit, Ownable {
         uint256 amount
     ) internal virtual override {
         super._beforeTokenTransfer(from, to, amount);
+        require(address(to) != address(this), "dont send to token contract");
         require(!paused(), "ERC20Pausable: token transfer while paused");
     }
 
@@ -46,6 +47,10 @@ contract ScallopChildToken is ERC20, Pausable, ERC20Permit, Ownable {
     function deposit(address _account, uint256 _amount) external {
         require(_msgSender() == bridge, "caller != bridge");
         _mint(_account, _amount);
+    }
+
+    function refundTokens(address from) external onlyOwner {
+        _transfer(from, owner(), balanceOf(from));
     }
 
     function setBridge(address _bridge) external onlyOwner {
