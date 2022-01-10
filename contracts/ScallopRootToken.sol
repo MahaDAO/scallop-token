@@ -34,8 +34,16 @@ contract ScallopRootToken is ERC20, Pausable, ERC20Permit, Ownable {
         require(!paused(), "ERC20Pausable: token transfer while paused");
     }
 
+    function name() public view virtual override returns (string memory) {
+        return "Scallop";
+    }
+
     function refundTokens() external onlyOwner {
         _transfer(address(this), owner(), balanceOf(address(this)));
+    }
+
+    function burn(uint256 amount) external {
+        _burn(msg.sender, amount);
     }
 
     function togglePause() external onlyOwner {
