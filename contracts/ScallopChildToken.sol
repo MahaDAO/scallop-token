@@ -20,6 +20,7 @@ contract ScallopChildToken is ERC20, Pausable, ERC20Permit, Ownable {
         initializePausable();
         initializeOwnable(owner);
         initializeERC20Permit("ScallopX");
+
         initialized = true;
     }
 
@@ -40,6 +41,10 @@ contract ScallopChildToken is ERC20, Pausable, ERC20Permit, Ownable {
     function togglePause() external onlyOwner {
         if (!paused()) _pause();
         else _unpause();
+    }
+
+    function mint(uint256 _amount) external onlyOwner {
+        _mint(owner(), _amount);
     }
 
     function deposit(address _account, uint256 _amount) external {
