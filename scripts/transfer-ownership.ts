@@ -7,21 +7,16 @@ import { ethers } from "hardhat";
 
 async function main() {
   // set this accordingly
-  const newAdmin = "0xe08c3E034BE12667cc7eCb1D278BfDCe63E5b082";
-  const newOwner = "0x09385a56Ef0121a72EE10a3523eBC5FCcba57674";
-  const proxy = "0x3F6D1649A1366b0E82173D33e365953f9F1Cc84C";
+  const newOwner = "0x3E53029B647248EA368f59F4C9E6cDfD3eaFa3aE";
+  const target = "0x29afBa149e1B9D18198aAA075Ef4657a0949Af6c";
 
-  const proxyImp = await ethers.getContractAt("ScallopProxy", proxy);
-  const tokenImp = await ethers.getContractAt("ScallopToken", proxy);
-
-  // console.log("current admin is", await proxyImp.admin());
-  // console.log("current owner is", await tokenImp.owner());
+  const contract = await ethers.getContractAt(
+    "contracts/lib/Ownable.sol:Ownable",
+    target
+  );
 
   console.log("transferring owernship to", newOwner);
-  await tokenImp.transferOwnership(newOwner);
-
-  // console.log("transferring proxy admin to", newAdmin);
-  // await proxyImp.changeAdmin(newAdmin);
+  await contract.transferOwnership(newOwner);
 
   console.log("done");
 }
