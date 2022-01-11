@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.0;
 
-import {DistributionContract} from "../lib/DistributionContract.sol";
+import {DistributionContract} from "./lib/DistributionContract.sol";
 
-contract P2InvestorsDistribution is DistributionContract {
+contract ScallopInvestorsDistribution is DistributionContract {
     // 3 month cliff/linear release
     constructor(address token)
         DistributionContract(
