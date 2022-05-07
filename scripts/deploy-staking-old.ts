@@ -14,7 +14,7 @@ async function main() {
   const sclpTokenBSC = "0xf2c96e402c9199682d5ded26d3771c6b192c01af";
 
   console.log("deploying contract");
-  const Contract = await hre.ethers.getContractFactory("Staking4Y");
+  const Contract = await hre.ethers.getContractFactory("OldStakingRewards");
   const contract = await Contract.deploy(sclpTokenBSC);
   await contract.deployed();
   console.log("contract deployed to:", contract.address);
@@ -23,7 +23,7 @@ async function main() {
 
   await hre.run("verify:verify", {
     address: contract.address,
-    contract: "contracts/staking/Staking4Y.sol:Staking4Y",
+    contract: "contracts/staking/OldStakingRewards.sol:OldStakingRewards",
     constructorArguments: [sclpTokenBSC],
   });
 }

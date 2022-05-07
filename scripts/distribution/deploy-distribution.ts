@@ -7,25 +7,28 @@ const hre = require("hardhat");
 const Web3 = require("web3");
 const web3 = new Web3();
 
-import { wait } from "./utils";
+// import { wait } from "../utils";
 
 async function main() {
   // Deploy the SCLP token
   const sclpTokenBSC = "0xf2c96e402c9199682d5ded26d3771c6b192c01af";
 
   console.log("deploying contract");
-  const Contract = await hre.ethers.getContractFactory("Staking4Y");
+  const Contract = await hre.ethers.getContractFactory(
+    "ScallopInvestorsDistribution"
+  );
   const contract = await Contract.deploy(sclpTokenBSC);
   await contract.deployed();
   console.log("contract deployed to:", contract.address);
 
-  await wait(30 * 1000); // 30sec wait
+  // await wait(30 * 1000); // 30sec wait
 
-  await hre.run("verify:verify", {
-    address: contract.address,
-    contract: "contracts/staking/Staking4Y.sol:Staking4Y",
-    constructorArguments: [sclpTokenBSC],
-  });
+  // await hre.run("verify:verify", {
+  //   address: contract.address,
+  //   contract:
+  //     "contracts/ScallopInvestorsDistribution.sol:ScallopInvestorsDistribution",
+  //   constructorArguments: [sclpTokenBSC],
+  // });
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -13,18 +13,26 @@ async function main() {
   // Deploy the SCLP token
   const sclpTokenBSC = "0xf2c96e402c9199682d5ded26d3771c6b192c01af";
 
-  console.log("deploying contract");
-  const Contract = await hre.ethers.getContractFactory("Staking4Y");
-  const contract = await Contract.deploy(sclpTokenBSC);
-  await contract.deployed();
-  console.log("contract deployed to:", contract.address);
+  const args = [
+    "0xca41f33c4415734993fFD22BE9D2B7Baf570d3A7", // address _rewardsDistribution,
+    sclpTokenBSC, // address _rewardsToken,
+    sclpTokenBSC, // address _rewardsToken,
+    86400 * 365, // uint256 _rewardsDuration - 1yr
+    1762005600, // uint256 _withdrawUnlock
+  ];
 
-  await wait(30 * 1000); // 30sec wait
+  // console.log("deploying contract", args);
+  // const Contract = await hre.ethers.getContractFactory("Staking4Y");
+  // const contract = await Contract.deploy(...args);
+  // await contract.deployed();
+  // console.log("contract deployed to:", contract.address);
+
+  // await wait(30 * 1000); // 30sec wait
 
   await hre.run("verify:verify", {
-    address: contract.address,
-    contract: "contracts/staking/Staking4Y.sol:Staking4Y",
-    constructorArguments: [sclpTokenBSC],
+    address: "0x9C1a1A2Bd7a4174Ea1D1789e71d672a0aDc22662",
+    // contract: "contracts/Staking4Y.sol:Staking4Y",
+    constructorArguments: args,
   });
 }
 

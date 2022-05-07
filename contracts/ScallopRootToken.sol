@@ -7,20 +7,20 @@ import "./lib/Pausable.sol";
 import "./lib/ERC20Permit.sol";
 
 /**
- * Implementation of the Scallop token
+ * Implementation of the Fwd token
  */
-contract ScallopRootToken is ERC20, Pausable, ERC20Permit, Ownable {
+contract FwdRootToken is ERC20, Pausable, ERC20Permit, Ownable {
     bool public initialized;
 
     function initialize(address owner) external payable {
         require(!initialized, "already initialized");
 
-        initializeERC20("Scallop", "SCLP");
+        initializeERC20("Forward Protocol", "FORWARD");
         initializePausable();
         initializeOwnable(owner);
-        initializeERC20Permit("ScallopX");
+        initializeERC20Permit("FORWARD");
 
-        _mint(owner, 100000000 * 1e18); // mint 100 mil SCLP tokens
+        _mint(owner, 5000000000 * 1e18); // mint 5 bil tokens
         initialized = true;
     }
 
@@ -32,10 +32,6 @@ contract ScallopRootToken is ERC20, Pausable, ERC20Permit, Ownable {
         super._beforeTokenTransfer(from, to, amount);
         require(address(to) != address(this), "dont send to token contract");
         require(!paused(), "ERC20Pausable: token transfer while paused");
-    }
-
-    function name() public view virtual override returns (string memory) {
-        return "Scallop";
     }
 
     function refundTokens() external onlyOwner {
