@@ -21,17 +21,17 @@ async function main() {
     1762005600, // uint256 _withdrawUnlock
   ];
 
-  // console.log("deploying contract", args);
-  // const Contract = await hre.ethers.getContractFactory("Staking4Y");
-  // const contract = await Contract.deploy(...args);
-  // await contract.deployed();
-  // console.log("contract deployed to:", contract.address);
+  console.log("deploying contract", args);
+  const Contract = await hre.ethers.getContractFactory("Staking4Y");
+  const contract = await Contract.deploy(...args);
+  await contract.deployed();
+  console.log("contract deployed to:", contract.address);
 
-  // await wait(30 * 1000); // 30sec wait
+  await wait(30 * 1000); // 30sec wait
 
   await hre.run("verify:verify", {
-    address: "0x9C1a1A2Bd7a4174Ea1D1789e71d672a0aDc22662",
-    // contract: "contracts/Staking4Y.sol:Staking4Y",
+    address: contract.address,
+    contract: "contracts/staking/Staking4Y.sol:Staking4Y",
     constructorArguments: args,
   });
 }
